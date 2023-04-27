@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    /* Modules */
+    "module": "ESNext",
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+
+    /* JavaScript Support */
+    "allowJs": true,
+    "checkJs": true,
+
+    /* Emit */
+    "declaration": true,
+    "outDir": "./dist/esm",
+    "removeComments": true,
+    "declarationDir": "./dist/types"
+  },
+  "include": ["src", "types"],
+  "exclude": ["node_modules", "dist"]
+}
