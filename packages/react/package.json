@@ -23,9 +23,9 @@
     "@rx-controller/core": "^1.0.5"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-native": "^0.71.7",
+    "react": "^16.8 || ^17.0 || ^18.0",
+    "react-dom": "^16.8 || ^17.0 || ^18.0",
+    "react-native": ">=0.59",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
