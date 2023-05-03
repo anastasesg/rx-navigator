@@ -16,10 +16,11 @@ export function Provider<TRouteConfiguration extends RouteConfiguration>({ confi
 
   const route = state.stack.peek();
   if (!route) throw new Error('There are no more routes. Did you go back on your first route?');
+  const navigationRoute = { name: route.name, path: route.path, params: route.params };
 
   return (
-    <>
-      <route.screen route={{ name: route.name, path: route.path, params: route.params } as any} navigation={navigation} />
-    </>
+    <route.layout activeRoute={navigationRoute} navigation={navigation}>
+      <route.screen route={navigationRoute as any} navigation={navigation} />
+    </route.layout>
   );
 }

@@ -1,4 +1,4 @@
-import { NavigationScreen } from '../components';
+import { DefaultLayout, NavigationScreen } from '../components';
 import { InitialMetadata, NameMetadata, PathMetadata, TypeMetadata } from '../decorators';
 import { ClassLike, NavigationConfiguration, Route } from '../types';
 
@@ -51,6 +51,7 @@ export function configurationParser(configuration: NavigationConfiguration<any, 
         path: pathJoiner(path, Reflect.getMetadata(PathMetadata, screen)),
         initial: Reflect.getMetadata(InitialMetadata, screen),
         screen: screen,
+        layout: configuration.layout ?? DefaultLayout,
       });
     else routes.push(...configurationParser(screen, indexer(index, screenName), pathJoiner(path, screen.path)));
   }

@@ -1,4 +1,4 @@
-import { NavigationScreen } from '../components';
+import { NavigationLayout, NavigationScreen } from '../components';
 import { NavigationRoute } from '../navigation';
 import { ClassLike } from './class_like.type';
 import { ExtractPath, Path } from './navigation_paths.type';
@@ -17,9 +17,9 @@ type NaiveNavigationScreenProps<TRouteConfiguration extends RouteConfiguration, 
 type Keys<TRouteConfiguration extends RouteConfiguration, TRoute extends string = ''> = Extract<keyof ConditionalExtract<TRouteConfiguration, TRoute>, string>;
 
 // TODO: Add authenticated routes
-// TODO: Add layout to routes
 export type NavigationConfiguration<TRouteConfiguration extends RouteConfiguration, TLeftover extends string = ''> = {
   path: string;
+  layout?: ClassLike<NavigationLayout<TRouteConfiguration>>;
   screens: {
     [TRoute in Keys<TRouteConfiguration, TLeftover>]: ConditionalExtract<TRouteConfiguration, ConditionalJoin<TLeftover, TRoute>> extends NavigationRoute<any>
       ? ClassLike<NavigationScreen<NaiveNavigationScreenProps<TRouteConfiguration, ConditionalJoin<TLeftover, TRoute>>>>

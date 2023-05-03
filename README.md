@@ -19,5 +19,4 @@ navigators_ are mappings between _routes_ and _screens_ which tell the applicati
 ## TODO
 
 - [ ] Support protected routes.
-- [ ] Support layouts for navigation groups.
 - [ ] Add routing support for web applications.

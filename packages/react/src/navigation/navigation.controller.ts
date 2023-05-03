@@ -23,6 +23,11 @@ type NavigationEventParams<TRouteConfiguration extends RouteConfiguration> = {
   [NavigationEvents.push]: { params: NavigateProps<TRouteConfiguration> };
 };
 
+function isNavigateProps(obj: any): obj is NavigateProps<any> {
+  if (!obj || typeof obj !== 'object') return false;
+  return 'screen' in obj && 'params' in obj;
+}
+
 export class NavigationController<TRouteConfiguration extends RouteConfiguration>
   extends Controller<NavigationState<TRouteConfiguration>, NavigationEventParams<TRouteConfiguration>>
   implements NavigationHandler<TRouteConfiguration>
@@ -59,18 +64,38 @@ export class NavigationController<TRouteConfiguration extends RouteConfiguration
   }
 
   private [NavigationEvents.goBack](state: NavigationState<TRouteConfiguration>) {
+    if (state.stack.size() === 1) return;
+
     state.stack.pop();
     this.emit({ ...state });
   }
 
   private [NavigationEvents.pop](state: NavigationState<TRouteConfiguration>, params: NavigationEventParams<TRouteConfiguration>[NavigationEvents.pop]) {
-    console.log(state, params);
-    // TODO: Implement
+    const { times } = params;
+    for (let i = 0; i++; i < times) {
+      if (state.stack.size() === 1) break;
+      state.stack.pop();
+    }
+
+    this.emit({ ...state });
   }
 
   private [NavigationEvents.push](state: NavigationState<TRouteConfiguration>, args: NavigationEventParams<TRouteConfiguration>[NavigationEvents.push]) {
-    const { screen, params } = args.params;
-    const route = state.routes.find((r) => r.index === screen);
+    const { screen, params: initialParams } = args.params;
+    let index = screen as string;
+    let params: any = initialParams;
+
+    // To handle nested navigation we need to check whether the params object
+    // is a navigate prop or not. If it is, add its screen to the index and set
+    // its value as its own params object and then check again. Do that until the
+    // params is actually the params of the route.
+    if (isNavigateProps(params)) {
+      while (isNavigateProps(params)) {
+        index += `.${params.screen}`;
+        params = { ...(params.params as any) };
+      }
+    }
+    const route = state.routes.find((r) => r.index === index);
     if (!route) throw new Error(`Could not find route for index: ${screen}`);
 
     state.stack.push({ ...route, params: params as any });
