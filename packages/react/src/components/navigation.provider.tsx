@@ -20,7 +20,7 @@ export function Provider<TRouteConfiguration extends RouteConfiguration>({ confi
 
   return (
     <route.layout activeRoute={navigationRoute} navigation={navigation}>
-      <route.screen route={navigationRoute as any} navigation={navigation} />
+      {new route.screen().render({ route: navigationRoute as any, navigation })}
     </route.layout>
   );
 }

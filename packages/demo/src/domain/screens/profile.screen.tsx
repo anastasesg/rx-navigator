@@ -3,8 +3,7 @@ import { ProfileScreenProps } from '../routes';
 
 @Screen({ path: '/profile/:profileId', name: 'Profile', type: 'page' })
 export class ProfileScreen extends NavigationScreen<ProfileScreenProps> {
-  render(): JSX.Element {
-    const { route, navigation } = this.props;
+  render({ route, navigation }: ProfileScreenProps): JSX.Element {
     return (
       <>
         <h2>Name: {route.name}</h2>
